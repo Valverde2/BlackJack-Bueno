@@ -43,9 +43,6 @@ void shuffleDeck() {
     }
 }
 
-void showCard(struct card c) {
-    printf("  %s of %s\n", c.value, c.suit);
-}
 
 int sumHand(struct card hand[], int numCards) {
     int sum = 0;
@@ -63,24 +60,28 @@ int main() {
 
     playerHand[numPlayerCards++] = deck[0];
     playerHand[numPlayerCards++] = deck[1];
-    playerSum = sumHand(playerHand, numPlayerCards);
+
+    playerSum += sumHand(playerHand, numPlayerCards);
 
     printf("Tus cartas:\n");
-    showCard(playerHand[0]);
-    showCard(playerHand[1]);
+    printf("  %s de %s\n", playerHand[0].value, playerHand[0].suit);
+    printf("  %s de %s\n", playerHand[1].value, playerHand[1].suit);
     printf("Suma total: %d\n", playerSum);
+    printf("--------------------------\n");
 
     while (playerSum < 21) {
-        printf("¿Do you want another card? (y/n): ");
+        printf("Do you want another card? (y/n): ");
         scanf(" %c", &choice);
 
-        if (choice == 's' || choice == 'S') {
+        if (choice == 'y' || choice == 'Y') {
             playerHand[numPlayerCards] = deck[numPlayerCards + 1];
             playerSum = sumHand(playerHand, ++numPlayerCards);
 
             printf("New card:\n");
-            showCard(playerHand[numPlayerCards - 1]);
+            printf("  %s of %s\n", playerHand[numPlayerCards - 1].value, playerHand[numPlayerCards - 1].suit);
+
             printf("Total sum: %d\n", playerSum);
+            printf("--------------------------\n");
         } else {
             break;
         }
@@ -89,7 +90,7 @@ int main() {
     if (playerSum == 21) {
         printf("¡Blackjack! You won.\n");
     } else if (playerSum > 21) {
-        printf("You passed. End of the game.\n");
+        printf("You passed the points. End of the game.\n");
     } else {
         printf("You stopped %d. End of the game.\n", playerSum);
     }
